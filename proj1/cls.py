@@ -49,12 +49,14 @@ base_options = python.BaseOptions(model_asset_path='models\cls\efficientnet_lite
 options = vision.ImageClassifierOptions(
     base_options=base_options, max_results=1)
 # 옵션의 결과가 항상 1개만 나오도록 설정해줌
-classifier = vision.ImageClassifier.create_from_options(options)
-
+classifier = vision.ImageClassifier.create_from_options(options)    
+# create_from_options 는 로컬 환경에 있는 이미지파일을 가져올 때만 사용함 
+# => 이렇게하면 서버에서 받은 image를 로컬에 저장하고 다시 create 로 불러와야만 하는 불필요한 로직
+# => 따라서 Fast API 를 사용하여 서버에서 받은 image를 바로 전송 (등록) (api_cls.py 에 구현 되어있음) 
 
 # STEP 3: Load the input image.
 # image = mp.Image.create_from_file(IMAGE_FILENAMES[0])
-image = mp.Image.create_from_file('cake.jpg') 
+image = mp.Image.create_from_file('cake.jpg')   # 
 # 둘중 하나로 데이터 가져오기 가능
 
 # STEP 4: Classify the input image.
